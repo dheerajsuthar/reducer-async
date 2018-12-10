@@ -1,4 +1,3 @@
-import 'babel-polyfill';
 import thunkMiddleWare from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import rootReducer from './reducers';
@@ -12,12 +11,9 @@ import {
 
 const loggerMiddleWare = createLogger();
 const store = createStore(rootReducer, applyMiddleware(
-    {
-        thunkMiddleWare,
-        loggerMiddleWare
-    }
+    thunkMiddleWare,
+    loggerMiddleWare
 ));
 
-store.selectSubreddit('javascript');
-store.dispatch(fetchPosts('javascript')).then(data => console.log(data));
-        
+store.dispatch(selectSubreddit('javascript'));
+store.dispatch(fetchPosts('javascript')).then(data => data);

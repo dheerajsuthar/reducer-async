@@ -30,7 +30,7 @@ export function recieveSubreddit(subreddit, json) {
     return {
         type: RECIEVE_SUBREDDIT,
         subreddit,
-        posts: json.data.children.map(child => child.data),
+        posts: json.data.children.map(child => child.data.title),
         lastUpdated: Date.now()
     }
 }
@@ -39,7 +39,7 @@ export function recieveSubreddit(subreddit, json) {
 
 export function fetchPosts(subreddit) {
     return dispatch => {
-        dispatch(fetchPosts);
+        dispatch(fetchSubreddit(subreddit));
         return fetch(`https://www.reddit.com/r/${subreddit}.json`)
             .then(res => res.json(), error => console.log(error))
             .then(json => dispatch(recieveSubreddit(subreddit, json)));

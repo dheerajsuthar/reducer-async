@@ -6,7 +6,7 @@ import {
     RECIEVE_SUBREDDIT
 } from './actions';
 
-function selectedSubreddit(action, state = 'javascript') {
+function selectedSubreddit(state = 'react', action) {
     switch (action.type) {
         case SELECT_SUBREDDIT:
             return action.subreddit;
@@ -15,19 +15,20 @@ function selectedSubreddit(action, state = 'javascript') {
     }
 }
 
-function posts(action,
+function posts(
     state = {
         isFetching: false,
         didInvalidate: false,
         items: [],
         lastUpdated: null
-    }
+    },
+    action
 ) {
     switch (action.type) {
         case INVALIDATE_SUBREDDIT:
             return Object.assign({}, state, { didInvalidate: true });
         case FETCH_SUBREDDIT:
-            return Object.assign({}, state, { isFetching: true });
+            return Object.assign({}, state, { isFetching: true, didInvalidate: false });
         case RECIEVE_SUBREDDIT:
             return Object.assign({}, state, {
                 isFetching: false,
@@ -40,13 +41,13 @@ function posts(action,
     }
 }
 
-function postsBySubreddit(action, state = {}) {
+function postsBySubreddit(state = {}, action) {
     switch (action.type) {
         case INVALIDATE_SUBREDDIT:
         case FETCH_SUBREDDIT:
         case RECIEVE_SUBREDDIT:
             return Object.assign({}, state, {
-                [action.subreddit]: posts(action, state[action.subreddit])
+                [action.subreddit]: posts(state[action.subreddit], action)
             });
         default:
             return state;
