@@ -35,6 +35,8 @@ export function recieveSubreddit(subreddit, json) {
     }
 }
 
+//fetch('https://www.reddit.com/r/javascript.json').then(res => res.json()).then(data => data.data.children.map(child => l(child.data)));
+
 export function fetchPosts(subreddit) {
     return dispatch => {
         dispatch(fetchPosts);
